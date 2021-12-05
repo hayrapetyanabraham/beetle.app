@@ -9,12 +9,123 @@ part of 'auth_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthStore on _AuthStore, Store {
-  Computed<bool>? _$loadingComputed;
+  Computed<bool>? _$canLoginComputed;
 
   @override
-  bool get loading => (_$loadingComputed ??=
-          Computed<bool>(() => super.loading, name: '_AuthStore.loading'))
+  bool get canLogin => (_$canLoginComputed ??=
+          Computed<bool>(() => super.canLogin, name: '_AuthStore.canLogin'))
       .value;
+  Computed<bool>? _$isReadyToLoginComputed;
+
+  @override
+  bool get isReadyToLogin =>
+      (_$isReadyToLoginComputed ??= Computed<bool>(() => super.isReadyToLogin,
+              name: '_AuthStore.isReadyToLogin'))
+          .value;
+  Computed<bool>? _$canRegisterComputed;
+
+  @override
+  bool get canRegister =>
+      (_$canRegisterComputed ??= Computed<bool>(() => super.canRegister,
+              name: '_AuthStore.canRegister'))
+          .value;
+  Computed<bool>? _$canForgetPasswordComputed;
+
+  @override
+  bool get canForgetPassword => (_$canForgetPasswordComputed ??= Computed<bool>(
+          () => super.canForgetPassword,
+          name: '_AuthStore.canForgetPassword'))
+      .value;
+
+  final _$userEmailAtom = Atom(name: '_AuthStore.userEmail');
+
+  @override
+  String get userEmail {
+    _$userEmailAtom.reportRead();
+    return super.userEmail;
+  }
+
+  @override
+  set userEmail(String value) {
+    _$userEmailAtom.reportWrite(value, super.userEmail, () {
+      super.userEmail = value;
+    });
+  }
+
+  final _$passwordAtom = Atom(name: '_AuthStore.password');
+
+  @override
+  String get password {
+    _$passwordAtom.reportRead();
+    return super.password;
+  }
+
+  @override
+  set password(String value) {
+    _$passwordAtom.reportWrite(value, super.password, () {
+      super.password = value;
+    });
+  }
+
+  final _$confirmPasswordAtom = Atom(name: '_AuthStore.confirmPassword');
+
+  @override
+  String get confirmPassword {
+    _$confirmPasswordAtom.reportRead();
+    return super.confirmPassword;
+  }
+
+  @override
+  set confirmPassword(String value) {
+    _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
+      super.confirmPassword = value;
+    });
+  }
+
+  final _$successAtom = Atom(name: '_AuthStore.success');
+
+  @override
+  bool get success {
+    _$successAtom.reportRead();
+    return super.success;
+  }
+
+  @override
+  set success(bool value) {
+    _$successAtom.reportWrite(value, super.success, () {
+      super.success = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_AuthStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$isAgreeConditionsAtom = Atom(name: '_AuthStore.isAgreeConditions');
+
+  @override
+  bool get isAgreeConditions {
+    _$isAgreeConditionsAtom.reportRead();
+    return super.isAgreeConditions;
+  }
+
+  @override
+  set isAgreeConditions(bool value) {
+    _$isAgreeConditionsAtom.reportWrite(value, super.isAgreeConditions, () {
+      super.isAgreeConditions = value;
+    });
+  }
 
   final _$fetchAuthorizationFutureAtom =
       Atom(name: '_AuthStore.fetchAuthorizationFuture');
@@ -48,51 +159,198 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
-  final _$successAtom = Atom(name: '_AuthStore.success');
+  final _$registerAsyncAction = AsyncAction('_AuthStore.register');
 
   @override
-  bool get success {
-    _$successAtom.reportRead();
-    return super.success;
+  Future<dynamic> register() {
+    return _$registerAsyncAction.run(() => super.register());
+  }
+
+  final _$loginAsyncAction = AsyncAction('_AuthStore.login');
+
+  @override
+  Future<dynamic> login() {
+    return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$forgotPasswordAsyncAction = AsyncAction('_AuthStore.forgotPassword');
+
+  @override
+  Future<dynamic> forgotPassword() {
+    return _$forgotPasswordAsyncAction.run(() => super.forgotPassword());
+  }
+
+  final _$logoutAsyncAction = AsyncAction('_AuthStore.logout');
+
+  @override
+  Future<dynamic> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
+  final _$_AuthStoreActionController = ActionController(name: '_AuthStore');
+
+  @override
+  void setUserId(String value) {
+    final _$actionInfo =
+        _$_AuthStoreActionController.startAction(name: '_AuthStore.setUserId');
+    try {
+      return super.setUserId(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
-  set success(bool value) {
-    _$successAtom.reportWrite(value, super.success, () {
-      super.success = value;
-    });
-  }
-
-  final _$emailAtom = Atom(name: '_AuthStore.email');
-
-  @override
-  String get email {
-    _$emailAtom.reportRead();
-    return super.email;
+  void setPassword(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.setPassword');
+    try {
+      return super.setPassword(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
-  set email(String value) {
-    _$emailAtom.reportWrite(value, super.email, () {
-      super.email = value;
-    });
+  void setConfirmPassword(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.setConfirmPassword');
+    try {
+      return super.setConfirmPassword(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
   }
 
-  final _$postGetAuthAsyncAction = AsyncAction('_AuthStore.postGetAuth');
+  @override
+  void validateUserEmail(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.validateUserEmail');
+    try {
+      return super.validateUserEmail(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
-  Future<dynamic> postGetAuth() {
-    return _$postGetAuthAsyncAction.run(() => super.postGetAuth());
+  void validatePassword(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.validatePassword');
+    try {
+      return super.validatePassword(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateConfirmPassword(String value) {
+    final _$actionInfo = _$_AuthStoreActionController.startAction(
+        name: '_AuthStore.validateConfirmPassword');
+    try {
+      return super.validateConfirmPassword(value);
+    } finally {
+      _$_AuthStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
   String toString() {
     return '''
+userEmail: ${userEmail},
+password: ${password},
+confirmPassword: ${confirmPassword},
+success: ${success},
+loading: ${loading},
+isAgreeConditions: ${isAgreeConditions},
 fetchAuthorizationFuture: ${fetchAuthorizationFuture},
 authorization: ${authorization},
-success: ${success},
-email: ${email},
-loading: ${loading}
+canLogin: ${canLogin},
+isReadyToLogin: ${isReadyToLogin},
+canRegister: ${canRegister},
+canForgetPassword: ${canForgetPassword}
+    ''';
+  }
+}
+
+mixin _$AuthErrorStore on _AuthErrorStore, Store {
+  Computed<bool>? _$hasErrorsInLoginComputed;
+
+  @override
+  bool get hasErrorsInLogin => (_$hasErrorsInLoginComputed ??= Computed<bool>(
+          () => super.hasErrorsInLogin,
+          name: '_AuthErrorStore.hasErrorsInLogin'))
+      .value;
+  Computed<bool>? _$hasErrorsInRegisterComputed;
+
+  @override
+  bool get hasErrorsInRegister => (_$hasErrorsInRegisterComputed ??=
+          Computed<bool>(() => super.hasErrorsInRegister,
+              name: '_AuthErrorStore.hasErrorsInRegister'))
+      .value;
+  Computed<bool>? _$hasErrorInForgotPasswordComputed;
+
+  @override
+  bool get hasErrorInForgotPassword => (_$hasErrorInForgotPasswordComputed ??=
+          Computed<bool>(() => super.hasErrorInForgotPassword,
+              name: '_AuthErrorStore.hasErrorInForgotPassword'))
+      .value;
+
+  final _$userEmailAtom = Atom(name: '_AuthErrorStore.userEmail');
+
+  @override
+  String? get userEmail {
+    _$userEmailAtom.reportRead();
+    return super.userEmail;
+  }
+
+  @override
+  set userEmail(String? value) {
+    _$userEmailAtom.reportWrite(value, super.userEmail, () {
+      super.userEmail = value;
+    });
+  }
+
+  final _$passwordAtom = Atom(name: '_AuthErrorStore.password');
+
+  @override
+  String? get password {
+    _$passwordAtom.reportRead();
+    return super.password;
+  }
+
+  @override
+  set password(String? value) {
+    _$passwordAtom.reportWrite(value, super.password, () {
+      super.password = value;
+    });
+  }
+
+  final _$confirmPasswordAtom = Atom(name: '_AuthErrorStore.confirmPassword');
+
+  @override
+  String? get confirmPassword {
+    _$confirmPasswordAtom.reportRead();
+    return super.confirmPassword;
+  }
+
+  @override
+  set confirmPassword(String? value) {
+    _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
+      super.confirmPassword = value;
+    });
+  }
+
+  @override
+  String toString() {
+    return '''
+userEmail: ${userEmail},
+password: ${password},
+confirmPassword: ${confirmPassword},
+hasErrorsInLogin: ${hasErrorsInLogin},
+hasErrorsInRegister: ${hasErrorsInRegister},
+hasErrorInForgotPassword: ${hasErrorInForgotPassword}
     ''';
   }
 }

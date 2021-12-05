@@ -2,7 +2,7 @@ class Endpoints {
   Endpoints._();
 
   // base url
-  static const String baseUrl = "http://api.dev.beetle.am/";
+  static const String baseUrl = "http://api.dev.beetle.am:8002";
 
   // receiveTimeout
   static const int receiveTimeout = 15000;

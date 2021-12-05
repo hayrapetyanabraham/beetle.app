@@ -15,4 +15,10 @@ class AppColors {
     800: Color(0xFFDB7424),
     900: Color(0xFFD56217)
   };
+
+  //FF9500
+  static const pizazz = Color(0xFFFF9500);
+  static const tuna = Color(0xFF3C3C43);
+  static const azureRadiance = Color(0xFF007AFF);
+  static const chardonnay = Color(0xFFFFC97F);
 }
