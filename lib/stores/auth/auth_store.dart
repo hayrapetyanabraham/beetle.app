@@ -2,8 +2,12 @@ import 'package:app/error/dio_error_util.dart';
 import 'package:app/models/auth/authorization.dart';
 import 'package:app/repositories/auth/auth_repository.dart';
 import 'package:app/stores/error/error_store.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators/validators.dart';
+
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 part 'auth_store.g.dart';
 
@@ -33,6 +37,12 @@ abstract class _AuthStore with Store {
 
   @observable
   String password = '';
+
+  @observable
+  String userToken = '';
+
+  @observable
+  int? providerId;
 
   @observable
   String confirmPassword = '';
@@ -124,6 +134,59 @@ abstract class _AuthStore with Store {
     } else {
       authErrorStore.confirmPassword = null;
     }
+  }
+
+  Future<String?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+        if (kDebugMode) {
+          print('ID_TOKEN ${googleAuth.idToken}');
+          userToken = googleAuth.idToken.toString();
+          providerId = 2;
+          postExtLogin();
+        }
+        return googleAuth.idToken;
+      } else {
+        return null;
+      }
+    } on PlatformException catch (e) {
+      if (kDebugMode) {
+        print('message is ${e.message}');
+        print('code is ${e.code}');
+        print('details is ${e.details}');
+      }
+      var errorCode = "Google Sign In Error";
+      switch (e.message) {
+        case "sign_in_canceled":
+          {
+            errorCode = "Sign In Canceled";
+          }
+          break;
+      }
+      return errorCode;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  @action
+  Future postExtLogin() async {
+    loading = true;
+    final future =
+        _repository.postExtLogin(userToken: userToken, providerId: providerId);
+    fetchAuthorizationFuture = ObservableFuture(future);
+    future.then((authorization) {
+      this.authorization = authorization;
+      loading = false;
+      success = true;
+    }).catchError((error) {
+      errorStore.errorMessage = DioErrorUtil.handleError(error);
+      loading = false;
+      success = false;
+    });
   }
 
   @action

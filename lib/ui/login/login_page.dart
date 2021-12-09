@@ -261,7 +261,9 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      navigatorHome();
+                      // navigatorHome();
+                      //TODO apple
+                      _authStore.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.apple,
@@ -274,7 +276,9 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      navigatorHome();
+                      //navigatorHome();
+                      //TODO google
+                      _authStore.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.google,
@@ -287,7 +291,9 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      navigatorHome();
+                      // navigatorHome();
+                      //TODO fb
+                      _authStore.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.fb,
@@ -300,7 +306,9 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      navigatorHome();
+                      // navigatorHome();
+                      //TODO linkedin
+                      _authStore.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.linkedin,

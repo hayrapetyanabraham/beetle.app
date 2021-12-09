@@ -14,4 +14,6 @@ class Endpoints {
   static const String getUser = baseUrl + "/posts";
 
   static const String postGetToken = baseUrl + "/authority/passenger/token";
+
+  static const String postExtLogin = baseUrl + "/authority/passenger/extLogin";
 }

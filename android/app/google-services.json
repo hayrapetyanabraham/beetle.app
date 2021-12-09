@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "561592267900",
+    "project_id": "beetle-26929",
+    "storage_bucket": "beetle-26929.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561592267900:android:3ec02d812a004a7ce505f9",
+        "android_client_info": {
+          "package_name": "com.beetle.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561592267900-cs531ce2i1daas9ojd1j98u9gd2t4uv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp4W3h50iESesQXflHU1dfVbDAG0QrD2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561592267900-cs531ce2i1daas9ojd1j98u9gd2t4uv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

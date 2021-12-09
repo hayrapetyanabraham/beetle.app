@@ -9,16 +9,16 @@ class AuthRepository {
   AuthRepository(this._authApi, this._sharedPreferenceHelper);
 
   Future<Authorization> postGetAuth({String? email}) async {
-/*    return await _authApi.postGetToken({String email}){
-
-
-    }*/
-
     return await _authApi.postGetToken(email: email).then((auth) {
-      /* user.posts?.forEach((user) {
-        _postDataSource.insert(user);
-      });*/
+      return auth;
+    }).catchError((error) => throw error);
+  }
 
+  Future<Authorization> postExtLogin(
+      {int? providerId, String? userToken}) async {
+    return await _authApi
+        .postExtLogin(providerId: providerId, userToken: userToken)
+        .then((auth) {
       return auth;
     }).catchError((error) => throw error);
   }

@@ -67,6 +67,36 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  final _$userTokenAtom = Atom(name: '_AuthStore.userToken');
+
+  @override
+  String get userToken {
+    _$userTokenAtom.reportRead();
+    return super.userToken;
+  }
+
+  @override
+  set userToken(String value) {
+    _$userTokenAtom.reportWrite(value, super.userToken, () {
+      super.userToken = value;
+    });
+  }
+
+  final _$providerIdAtom = Atom(name: '_AuthStore.providerId');
+
+  @override
+  int? get providerId {
+    _$providerIdAtom.reportRead();
+    return super.providerId;
+  }
+
+  @override
+  set providerId(int? value) {
+    _$providerIdAtom.reportWrite(value, super.providerId, () {
+      super.providerId = value;
+    });
+  }
+
   final _$confirmPasswordAtom = Atom(name: '_AuthStore.confirmPassword');
 
   @override
@@ -157,6 +187,13 @@ mixin _$AuthStore on _AuthStore, Store {
     _$authorizationAtom.reportWrite(value, super.authorization, () {
       super.authorization = value;
     });
+  }
+
+  final _$postExtLoginAsyncAction = AsyncAction('_AuthStore.postExtLogin');
+
+  @override
+  Future<dynamic> postExtLogin() {
+    return _$postExtLoginAsyncAction.run(() => super.postExtLogin());
   }
 
   final _$registerAsyncAction = AsyncAction('_AuthStore.register');
@@ -260,6 +297,8 @@ mixin _$AuthStore on _AuthStore, Store {
     return '''
 userEmail: ${userEmail},
 password: ${password},
+userToken: ${userToken},
+providerId: ${providerId},
 confirmPassword: ${confirmPassword},
 success: ${success},
 loading: ${loading},

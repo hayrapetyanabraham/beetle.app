@@ -59,7 +59,7 @@ abstract class NetworkModule {
 
             if (kDebugMode) {
               print(
-                  'Headers: $platform  identifier: $identifier  deviceVersion: $deviceVersion  deviceName: $deviceName');
+                  'X-Device-Platform: $platform  X-DeviceId: $identifier  X-Device-Version: $deviceVersion  X-Device-Model: $deviceName');
             }
 
             if (token != null) {

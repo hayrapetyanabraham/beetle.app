@@ -42,6 +42,10 @@ dependencies:
   flutter_mobx: ^2.0.2
   flutter_svg: ^0.23.0+1
   # An helper to easily exposes a value using InheritedWidget without having to write one.
+
+  google_sign_in: ^5.2.1
+  firebase_core: ^1.10.2
+
   provider: ^6.0.1
   device_info: ^2.0.3
 
