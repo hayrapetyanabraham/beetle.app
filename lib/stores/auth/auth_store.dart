@@ -3,6 +3,7 @@ import 'package:app/models/auth/authorization.dart';
 import 'package:app/repositories/auth/auth_repository.dart';
 import 'package:app/stores/error/error_store.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:validators/validators.dart';
 
@@ -55,6 +56,9 @@ abstract class _AuthStore with Store {
 
   @observable
   bool isAgreeConditions = false;
+
+  @observable
+  Map<String, dynamic>? _userData;
 
   @computed
   bool get canLogin => !authErrorStore.hasErrorsInLogin && userEmail.isNotEmpty;
@@ -136,6 +140,7 @@ abstract class _AuthStore with Store {
     }
   }
 
+  ///GOOGLE
   Future<String?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -170,6 +175,20 @@ abstract class _AuthStore with Store {
     } catch (e) {
       return e.toString();
     }
+  }
+
+  Future<String> signInWithFacebook() async {
+    final LoginResult result =
+        await FacebookAuth.instance.login(permissions: ['email']);
+
+    if (result.status == LoginStatus.success) {
+      final userData = await FacebookAuth.instance.getUserData();
+
+      _userData = userData;
+    } else {
+      print(result.message);
+    }
+    return result.accessToken!.token;
   }
 
   @action

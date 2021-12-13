@@ -293,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       // navigatorHome();
                       //TODO fb
-                      _authStore.signInWithGoogle();
+                      _authStore.signInWithFacebook();
                     },
                     child: SvgPicture.asset(
                       Assets.fb,

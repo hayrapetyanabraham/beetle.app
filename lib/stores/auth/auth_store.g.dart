@@ -157,6 +157,21 @@ mixin _$AuthStore on _AuthStore, Store {
     });
   }
 
+  final _$_userDataAtom = Atom(name: '_AuthStore._userData');
+
+  @override
+  Map<String, dynamic>? get _userData {
+    _$_userDataAtom.reportRead();
+    return super._userData;
+  }
+
+  @override
+  set _userData(Map<String, dynamic>? value) {
+    _$_userDataAtom.reportWrite(value, super._userData, () {
+      super._userData = value;
+    });
+  }
+
   final _$fetchAuthorizationFutureAtom =
       Atom(name: '_AuthStore.fetchAuthorizationFuture');
 
