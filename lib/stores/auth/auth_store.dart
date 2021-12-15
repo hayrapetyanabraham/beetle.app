@@ -140,19 +140,12 @@ abstract class _AuthStore with Store {
     }
   }
 
-  ///GOOGLE
   Future<String?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
-        if (kDebugMode) {
-          print('ID_TOKEN ${googleAuth.idToken}');
-          userToken = googleAuth.idToken.toString();
-          providerId = 2;
-          postExtLogin();
-        }
         return googleAuth.idToken;
       } else {
         return null;
@@ -286,29 +279,3 @@ abstract class _AuthErrorStore with Store {
   @computed
   bool get hasErrorInForgotPassword => userEmail != null;
 }
-
-/*
-
-
-  @observable
-  bool success = false;
-
-  @observable
-  String email = '';
-
-  @computed
-  bool get loading => fetchAuthorizationFuture.status == FutureStatus.pending;
-
-  @action
-  Future postGetAuth() async {
-    final future = _repository.postGetAuth(email: email);
-    fetchAuthorizationFuture = ObservableFuture(future);
-
-    future.then((authorization) {
-      this.authorization = authorization;
-    }).catchError((error) {
-      errorStore.errorMessage = DioErrorUtil.handleError(error);
-    });
-  }
-}
-*/

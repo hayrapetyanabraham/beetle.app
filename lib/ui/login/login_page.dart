@@ -263,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       // navigatorHome();
                       //TODO apple
-                      _authStore.signInWithGoogle();
+                      // _authStore.signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.apple,
@@ -276,9 +276,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      //navigatorHome();
-                      //TODO google
-                      _authStore.signInWithGoogle();
+                      signInWithGoogle();
                     },
                     child: SvgPicture.asset(
                       Assets.google,
@@ -291,9 +289,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
-                      // navigatorHome();
-                      //TODO fb
-                      _authStore.signInWithFacebook();
+                      signInWithFacebook();
                     },
                     child: SvgPicture.asset(
                       Assets.fb,
@@ -302,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                Padding(
+                /*      Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: InkWell(
                     onTap: () {
@@ -316,7 +312,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 48,
                     ),
                   ),
-                ),
+                ),*/
               ],
             )));
   }
@@ -329,6 +325,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> postGetAuth() async {
     final auth = await _authStore.register();
+    navigatorHome();
+  }
+
+  Future<void> signInWithFacebook() async {
+    String userToken = await _authStore.signInWithFacebook();
+    _authStore.userToken = userToken;
+    _authStore.providerId = 1;
+    await _authStore.postExtLogin();
+    navigatorHome();
+  }
+
+  Future<void> signInWithGoogle() async {
+    String? userToken = await _authStore.signInWithGoogle();
+    _authStore.userToken = userToken!;
+    _authStore.providerId = 2;
+    await _authStore.postExtLogin();
     navigatorHome();
   }
 
