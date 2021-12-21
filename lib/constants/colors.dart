@@ -21,4 +21,5 @@ class AppColors {
   static const tuna = Color(0xFF3C3C43);
   static const azureRadiance = Color(0xFF007AFF);
   static const chardonnay = Color(0xFFFFC97F);
+  static const waterloo = Color(0xFF898894);
 }

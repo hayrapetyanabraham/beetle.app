@@ -1,10 +1,18 @@
+import 'package:app/constants/colors.dart';
+import 'package:app/models/navigation/navigation_titles.dart';
 import 'package:app/stores/language/language_store.dart';
 import 'package:app/stores/theme/theme_store.dart';
 import 'package:app/stores/user/user_store.dart';
+import 'package:app/ui/navigation/bottom_navigation.dart';
+import 'package:app/ui/pages/help/help_page.dart';
+import 'package:app/ui/pages/history/history_page.dart';
+import 'package:app/ui/pages/map/map_page.dart';
+import 'package:app/ui/pages/routes/routes_page.dart';
 import 'package:app/utils/locale/app_localization.dart';
 import 'package:app/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:material_dialog/material_dialog.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
@@ -17,6 +25,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _position = 0;
+  final PageController _controller =
+      PageController(viewportFraction: 1, keepPage: true);
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _position = index;
+    });
+    if (_controller.hasClients) {
+      _controller.jumpToPage(index);
+    }
+  }
+
+  List<NavigationTitles> getNavigationTitles() {
+    List<NavigationTitles> bottomNavigationTitles = [
+      NavigationTitles(
+        label: AppLocalizations.of(context).translate('map'),
+        icon: SvgPicture.asset(
+          'assets/menu/ic_map.svg',
+          color: AppColors.pizazz,
+        ),
+        activeIcon: SvgPicture.asset(
+          'assets/menu/ic_map.svg',
+          color: AppColors.waterloo,
+        ),
+      ),
+      NavigationTitles(
+        label: AppLocalizations.of(context).translate('routes'),
+        icon: SvgPicture.asset(
+          'assets/menu/ic_route.svg',
+          color: AppColors.pizazz,
+        ),
+        activeIcon: SvgPicture.asset(
+          'assets/menu/ic_route.svg',
+          color: AppColors.waterloo,
+        ),
+      ),
+      NavigationTitles(
+        label: 'History',
+        icon: SvgPicture.asset(
+          'assets/menu/ic_history.svg',
+          color: AppColors.pizazz,
+        ),
+        activeIcon: SvgPicture.asset(
+          'assets/menu/ic_history.svg',
+          color: AppColors.waterloo,
+        ),
+      ),
+      NavigationTitles(
+        label: 'Help',
+        icon: SvgPicture.asset(
+          'assets/menu/ic_help.svg',
+          color: AppColors.pizazz,
+        ),
+        activeIcon: SvgPicture.asset(
+          'assets/menu/ic_help.svg',
+          color: AppColors.waterloo,
+        ),
+      ),
+    ];
+
+    return bottomNavigationTitles;
+  }
+
   //stores:---------------------------------------------------------------------
   late UserStore _postStore;
   late ThemeStore _themeStore;
@@ -38,22 +110,27 @@ class _HomePageState extends State<HomePage> {
 
     // check to see if already called api
     if (!_postStore.loading) {
-     // _postStore.getUser();
+      // _postStore.getUser();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: BottomNavigatorProvider())
+        ],
+        child: Scaffold(
+          appBar: _buildAppBar(),
+          body: _buildBody(),
+          bottomNavigationBar: _buildBottomNavigationBar(),
+        ));
   }
 
   // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
+      title: Text(_getTitle()),
       actions: _buildActions(context),
     );
   }
@@ -62,8 +139,40 @@ class _HomePageState extends State<HomePage> {
     return <Widget>[
       _buildLanguageButton(),
       _buildThemeButton(),
-     // _buildLogoutButton(),
     ];
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Observer(
+      builder: (context) {
+        return BottomNavigationBar(
+          backgroundColor: Colors.white,
+          selectedItemColor: AppColors.waterloo,
+          unselectedItemColor: AppColors.pizazz,
+          unselectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Calibri',
+              color: AppColors.pizazz,
+              fontSize: 10),
+          selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Calibri',
+              color: AppColors.waterloo,
+              fontSize: 11),
+          type: BottomNavigationBarType.fixed,
+          items: [
+            for (final tab in getNavigationTitles())
+              BottomNavigationBarItem(
+                icon: tab.icon,
+                activeIcon: tab.activeIcon,
+                label: tab.label,
+              )
+          ],
+          currentIndex: _position,
+          onTap: _onItemTapped,
+        );
+      },
+    );
   }
 
   Widget _buildThemeButton() {
@@ -121,20 +230,52 @@ class _HomePageState extends State<HomePage> {
       builder: (context) {
         return _postStore.loading
             ? const CustomProgressIndicatorWidget()
-            : Material(child: _buildListView());
+            : Material(child: _buildPageView());
       },
     );
   }
 
+/*
+
   Widget _buildListView() {
     return _postStore.user != null
-        ? ListView.separated(
-            itemCount: 1,
-            separatorBuilder: (context, position) {
-              return const Divider();
+        ? PageView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            allowImplicitScrolling: true,
+            controller: _controller,
+            children: <Widget>[
+
+            ],
+            onPageChanged: (int page) {
+              setState(() {
+                _position = page;
+              });
             },
-            itemBuilder: (context, position) {
-              return _buildListItem(position);
+          )
+        : Center(
+            child: Text(
+              AppLocalizations.of(context).translate('home_tv_no_post_found'),
+            ),
+          );
+  }
+*/
+
+  Widget _buildPageView() {
+    return _postStore.user != null
+        ? PageView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            allowImplicitScrolling: true,
+            controller: _controller,
+            children: const <Widget>[
+              MapPage(),
+              RoutesPage(),
+              HistoryPage(),
+              HelpPage(),
+            ],
+            onPageChanged: (int page) {
+              setState(() {
+                _position = page;
+              });
             },
           )
         : Center(
@@ -144,11 +285,13 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
+/*
   Widget _buildListItem(int position) {
     return const ListTile(
       dense: true,
       leading: Icon(Icons.cloud_circle),
-      /*    title: Text(
+      */
+/*    title: Text(
         '${_postStore.user?.posts?[position].title}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
@@ -160,8 +303,25 @@ class _HomePageState extends State<HomePage> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         softWrap: false,
-      ),*/
+      ),*/ /*
+
     );
+  }
+*/
+
+  String _getTitle() {
+    switch (_position) {
+      case 0:
+        return AppLocalizations.of(context).translate('map');
+      case 1:
+        return AppLocalizations.of(context).translate('routes');
+      case 2:
+        return AppLocalizations.of(context).translate('history');
+      case 3:
+        return AppLocalizations.of(context).translate('help');
+      default:
+        return AppLocalizations.of(context).translate('map');
+    }
   }
 
   Widget _handleErrorMessage() {
