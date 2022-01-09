@@ -1,15 +1,18 @@
 import 'package:app/data/apis/user_api.dart';
 import 'package:app/data/auth/auth_api.dart';
 import 'package:app/data/network/dio_client.dart';
+import 'package:app/data/place/place_api.dart';
 import 'package:app/data/shared/shared_preference_helper.dart';
 import 'package:app/di/module/network_module.dart';
 import 'package:app/repositories/auth/auth_repository.dart';
 import 'package:app/repositories/language/language_repository.dart';
+import 'package:app/repositories/place/place_repository.dart';
 import 'package:app/repositories/theme/theme_repository.dart';
 import 'package:app/repositories/user/user_repository.dart';
 import 'package:app/stores/auth/auth_store.dart';
 import 'package:app/stores/error/error_store.dart';
 import 'package:app/stores/language/language_store.dart';
+import 'package:app/stores/place/place_store.dart';
 import 'package:app/stores/theme/theme_store.dart';
 import 'package:app/stores/user/user_store.dart';
 import 'package:dio/dio.dart';
@@ -40,6 +43,7 @@ Future<void> setupLocator() async {
 
   // api's:---------------------------------------------------------------------
   getIt.registerSingleton(UserApi(getIt<DioClient>()));
+  getIt.registerSingleton(PlaceApi(getIt<DioClient>()));
   getIt.registerSingleton(AuthApi(getIt<DioClient>()));
 
   // data sources
@@ -66,11 +70,16 @@ Future<void> setupLocator() async {
     //getIt<PostDataSource>(),*/
   ));
 
+  getIt.registerSingleton(PlaceRepository(
+    getIt<PlaceApi>(),
+  ));
+
   // stores:--------------------------------------------------------------------
   getIt.registerSingleton(LanguageStore(getIt<LanguageRepository>()));
   getIt.registerSingleton(UserStore(getIt<UserRepository>()));
   getIt.registerSingleton(ThemeStore(getIt<ThemeRepository>()));
   getIt.registerSingleton(AuthStore(getIt<AuthRepository>()));
+  getIt.registerSingleton(PlaceStore(getIt<PlaceRepository>()));
 
   ///getIt.registerSingleton(UserStore(getIt<Repository>()));
 }

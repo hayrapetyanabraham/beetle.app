@@ -3,10 +3,12 @@ import 'package:app/constants/strings.dart';
 import 'package:app/di/components/service_locator.dart';
 import 'package:app/repositories/auth/auth_repository.dart';
 import 'package:app/repositories/language/language_repository.dart';
+import 'package:app/repositories/place/place_repository.dart';
 import 'package:app/repositories/theme/theme_repository.dart';
 import 'package:app/repositories/user/user_repository.dart';
 import 'package:app/stores/auth/auth_store.dart';
 import 'package:app/stores/language/language_store.dart';
+import 'package:app/stores/place/place_store.dart';
 import 'package:app/stores/theme/theme_store.dart';
 import 'package:app/stores/user/user_store.dart';
 import 'package:app/ui/home/home_page.dart';
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
   // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(getIt<ThemeRepository>());
   final AuthStore _authStore = AuthStore(getIt<AuthRepository>());
+  final PlaceStore _placeStore = PlaceStore(getIt<PlaceRepository>());
 
   //final PostStore _postStore = PostStore(getIt<Repository>());
   final LanguageStore _languageStore =
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
         Provider<UserStore>(create: (_) => _userStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
         Provider<AuthStore>(create: (_) => _authStore),
+        Provider<PlaceStore>(create: (_) => _placeStore),
       ],
       child: Observer(
         name: 'global-observer',

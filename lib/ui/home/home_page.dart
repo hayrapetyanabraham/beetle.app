@@ -7,6 +7,7 @@ import 'package:app/ui/navigation/bottom_navigation.dart';
 import 'package:app/ui/pages/help/help_page.dart';
 import 'package:app/ui/pages/history/history_page.dart';
 import 'package:app/ui/pages/map/map_page.dart';
+import 'package:app/ui/pages/map/map_view.dart';
 import 'package:app/ui/pages/routes/routes_page.dart';
 import 'package:app/utils/locale/app_localization.dart';
 import 'package:app/widgets/progress_indicator_widget.dart';
@@ -261,6 +262,29 @@ class _HomePageState extends State<HomePage> {
 */
 
   Widget _buildPageView() {
+    return PageView(
+     // physics: const AlwaysScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
+      allowImplicitScrolling: true,
+      controller: _controller,
+      children: const <Widget>[
+        MapPage(),
+        MapView(),
+       // RoutesPage(),
+        HistoryPage(),
+        HelpPage(),
+      ],
+      onPageChanged: (int page) {
+        setState(() {
+          _position = page;
+        });
+      },
+    );
+  }
+
+/*
+
+  Widget _buildPageView() {
     return _postStore.user != null
         ? PageView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -284,6 +308,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
   }
+*/
 
 /*
   Widget _buildListItem(int position) {

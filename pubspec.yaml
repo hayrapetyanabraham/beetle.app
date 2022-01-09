@@ -49,6 +49,12 @@ dependencies:
   provider: ^6.0.1
   device_info: ^2.0.3
   flutter_facebook_auth: ^3.5.7
+  google_maps_flutter: ^2.1.1
+  geolocator: ^8.0.1
+  flutter_polyline_points: ^1.0.0
+  geocoding: ^2.0.1
+  shared_preferences: ^2.0.11
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +73,7 @@ dev_dependencies:
   another_flushbar: ^1.10.25
 
   # The following adds the shared pref as a dependency in your application
-  shared_preferences: ^2.0.6
+  # shared_preferences: ^2.0.6
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
