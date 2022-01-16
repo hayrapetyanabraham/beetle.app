@@ -69,11 +69,100 @@ mixin _$PlaceStore on _PlaceStore, Store {
     });
   }
 
-  final _$getSuggestionAsyncAction = AsyncAction('_PlaceStore.getSuggestion');
+  final _$geocodingResultsStartAtom =
+      Atom(name: '_PlaceStore.geocodingResultsStart');
 
   @override
-  Future<dynamic> getSuggestion() {
-    return _$getSuggestionAsyncAction.run(() => super.getSuggestion());
+  List<GeocodingResult>? get geocodingResultsStart {
+    _$geocodingResultsStartAtom.reportRead();
+    return super.geocodingResultsStart;
+  }
+
+  @override
+  set geocodingResultsStart(List<GeocodingResult>? value) {
+    _$geocodingResultsStartAtom.reportWrite(value, super.geocodingResultsStart,
+        () {
+      super.geocodingResultsStart = value;
+    });
+  }
+
+  final _$geocodingResultsEndAtom =
+      Atom(name: '_PlaceStore.geocodingResultsEnd');
+
+  @override
+  List<GeocodingResult>? get geocodingResultsEnd {
+    _$geocodingResultsEndAtom.reportRead();
+    return super.geocodingResultsEnd;
+  }
+
+  @override
+  set geocodingResultsEnd(List<GeocodingResult>? value) {
+    _$geocodingResultsEndAtom.reportWrite(value, super.geocodingResultsEnd, () {
+      super.geocodingResultsEnd = value;
+    });
+  }
+
+  final _$geocodingResultStartAtom =
+      Atom(name: '_PlaceStore.geocodingResultStart');
+
+  @override
+  GeocodingResult? get geocodingResultStart {
+    _$geocodingResultStartAtom.reportRead();
+    return super.geocodingResultStart;
+  }
+
+  @override
+  set geocodingResultStart(GeocodingResult? value) {
+    _$geocodingResultStartAtom.reportWrite(value, super.geocodingResultStart,
+        () {
+      super.geocodingResultStart = value;
+    });
+  }
+
+  final _$geocodingResultEndAtom = Atom(name: '_PlaceStore.geocodingResultEnd');
+
+  @override
+  GeocodingResult? get geocodingResultEnd {
+    _$geocodingResultEndAtom.reportRead();
+    return super.geocodingResultEnd;
+  }
+
+  @override
+  set geocodingResultEnd(GeocodingResult? value) {
+    _$geocodingResultEndAtom.reportWrite(value, super.geocodingResultEnd, () {
+      super.geocodingResultEnd = value;
+    });
+  }
+
+  final _$getSuggestionStartAsyncAction =
+      AsyncAction('_PlaceStore.getSuggestionStart');
+
+  @override
+  Future<dynamic> getSuggestionStart() {
+    return _$getSuggestionStartAsyncAction
+        .run(() => super.getSuggestionStart());
+  }
+
+  final _$getSuggestionEndAsyncAction =
+      AsyncAction('_PlaceStore.getSuggestionEnd');
+
+  @override
+  Future<dynamic> getSuggestionEnd() {
+    return _$getSuggestionEndAsyncAction.run(() => super.getSuggestionEnd());
+  }
+
+  final _$resetStartAsyncAction = AsyncAction('_PlaceStore.resetStart');
+
+  @override
+  Future<dynamic> resetStart() {
+    return _$resetStartAsyncAction.run(() => super.resetStart());
+  }
+
+  final _$resetEndAsyncAction = AsyncAction('_PlaceStore.resetEnd');
+
+  @override
+  Future<dynamic> resetEnd() {
+    return _$resetEndAsyncAction.run(() => super.resetEnd());
   }
 
   @override
@@ -82,7 +171,11 @@ mixin _$PlaceStore on _PlaceStore, Store {
 loading: ${loading},
 success: ${success},
 input: ${input},
-lang: ${lang}
+lang: ${lang},
+geocodingResultsStart: ${geocodingResultsStart},
+geocodingResultsEnd: ${geocodingResultsEnd},
+geocodingResultStart: ${geocodingResultStart},
+geocodingResultEnd: ${geocodingResultEnd}
     ''';
   }
 }

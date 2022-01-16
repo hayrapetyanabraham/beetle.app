@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:app/constants/colors.dart';
+import 'package:app/stores/place/place_store.dart';
 import 'package:app/ui/pages/route_selector/route_selector_page.dart';
-import 'package:app/utils/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -16,10 +15,6 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   final Completer<GoogleMapController> _controller = Completer();
 
-  final destinationAddressController = TextEditingController();
-  final desrinationAddressFocusNode = FocusNode();
-
-//40.1875658,44.5149051
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(40.1875658, 44.5149051),
     zoom: 14.4746,
@@ -42,36 +37,24 @@ class _MapPageState extends State<MapPage> {
             _controller.complete(controller);
           },
         ),
-        InkWell(
-          onTap: () {
-            showRouteSelectorPage();
-          },
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: InkWell(
+              onTap: () {
+                showRouteSelectorPage();
+              },
               child: _searchField(
                   prefixIcon: const Icon(Icons.search), label: "Search route"),
             ),
           ),
-        )
+        ),
       ]),
-      /*     body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),*/
-      /*   floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
-      ),*/
     );
   }
 
-  Widget  _searchField({
+  Widget _searchField({
     required String label,
     required Icon prefixIcon,
   }) {
@@ -113,8 +96,10 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> showRouteSelectorPage() async {
-    Navigator.of(context).push(
+    PlaceStore _placeStore = await Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const RouteSelectorPage()));
+    print('OOOOOO ' +
+        _placeStore.geocodingResultStart!.formattedAddress.toString());
 
     /// Navigator.of(context).push(Routes.routeSelectorPage);
   }

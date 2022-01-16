@@ -14,6 +14,6 @@ class Routes {
   static final routes = <String, WidgetBuilder>{
     login: (BuildContext context) => const LoginPage(),
     home: (BuildContext context) => const HomePage(),
-    routeSelectorPage: (BuildContext context) =>  const RouteSelectorPage(),
+    routeSelectorPage: (BuildContext context) =>   const RouteSelectorPage(),
   };
 }

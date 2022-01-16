@@ -203,7 +203,8 @@ class _LoginPageState extends State<LoginPage> {
               _authStore.isAgreeConditions = value!;
             },
           ),
-          RichText(
+          Expanded(
+              child: RichText(
             textAlign: TextAlign.start,
             text: TextSpan(children: <InlineSpan>[
               TextSpan(
@@ -227,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                 recognizer: TapGestureRecognizer()..onTap = () {},
               ),
             ]),
-          )
+          )),
         ],
       );
     });
