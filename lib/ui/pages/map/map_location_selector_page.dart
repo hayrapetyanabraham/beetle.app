@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:app/constants/colors.dart';
 import 'package:app/widgets/rounded_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapLocationSelectorPage extends StatefulWidget {
-  const MapLocationSelectorPage({Key? key}) : super(key: key);
+  const MapLocationSelectorPage({Key key}) : super(key: key);
 
   @override
   _MapLocationSelectorPageState createState() =>
@@ -51,12 +52,12 @@ class _MapLocationSelectorPageState extends State<MapLocationSelectorPage> {
           },
         ),
         Align(
-            alignment: Alignment.center,
-            child: Icon(
-              Icons.location_on,
-              color: Colors.red[300],
-              size: 48,
-            )),
+          alignment: Alignment.center,
+          child: SvgPicture.asset(
+            'assets/icons/ic_pin.svg',
+            color: Colors.black,
+          ),
+        ),
         Align(alignment: Alignment.bottomCenter, child: _buildConfirmButton()),
       ],
     );

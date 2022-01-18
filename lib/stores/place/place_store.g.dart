@@ -73,13 +73,13 @@ mixin _$PlaceStore on _PlaceStore, Store {
       Atom(name: '_PlaceStore.geocodingResultsStart');
 
   @override
-  List<GeocodingResult>? get geocodingResultsStart {
+  List<GeocodingResult> get geocodingResultsStart {
     _$geocodingResultsStartAtom.reportRead();
     return super.geocodingResultsStart;
   }
 
   @override
-  set geocodingResultsStart(List<GeocodingResult>? value) {
+  set geocodingResultsStart(List<GeocodingResult> value) {
     _$geocodingResultsStartAtom.reportWrite(value, super.geocodingResultsStart,
         () {
       super.geocodingResultsStart = value;
@@ -90,13 +90,13 @@ mixin _$PlaceStore on _PlaceStore, Store {
       Atom(name: '_PlaceStore.geocodingResultsEnd');
 
   @override
-  List<GeocodingResult>? get geocodingResultsEnd {
+  List<GeocodingResult> get geocodingResultsEnd {
     _$geocodingResultsEndAtom.reportRead();
     return super.geocodingResultsEnd;
   }
 
   @override
-  set geocodingResultsEnd(List<GeocodingResult>? value) {
+  set geocodingResultsEnd(List<GeocodingResult> value) {
     _$geocodingResultsEndAtom.reportWrite(value, super.geocodingResultsEnd, () {
       super.geocodingResultsEnd = value;
     });
@@ -106,13 +106,13 @@ mixin _$PlaceStore on _PlaceStore, Store {
       Atom(name: '_PlaceStore.geocodingResultStart');
 
   @override
-  GeocodingResult? get geocodingResultStart {
+  GeocodingResult get geocodingResultStart {
     _$geocodingResultStartAtom.reportRead();
     return super.geocodingResultStart;
   }
 
   @override
-  set geocodingResultStart(GeocodingResult? value) {
+  set geocodingResultStart(GeocodingResult value) {
     _$geocodingResultStartAtom.reportWrite(value, super.geocodingResultStart,
         () {
       super.geocodingResultStart = value;
@@ -122,13 +122,13 @@ mixin _$PlaceStore on _PlaceStore, Store {
   final _$geocodingResultEndAtom = Atom(name: '_PlaceStore.geocodingResultEnd');
 
   @override
-  GeocodingResult? get geocodingResultEnd {
+  GeocodingResult get geocodingResultEnd {
     _$geocodingResultEndAtom.reportRead();
     return super.geocodingResultEnd;
   }
 
   @override
-  set geocodingResultEnd(GeocodingResult? value) {
+  set geocodingResultEnd(GeocodingResult value) {
     _$geocodingResultEndAtom.reportWrite(value, super.geocodingResultEnd, () {
       super.geocodingResultEnd = value;
     });

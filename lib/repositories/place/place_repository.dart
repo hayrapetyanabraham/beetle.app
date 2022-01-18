@@ -5,7 +5,7 @@ class PlaceRepository {
 
   PlaceRepository(this._placeApi);
 
-  Future<List> getSuggestion({String? input, String? lang}) async {
+  Future<List> getSuggestion({String input, String lang}) async {
     return await _placeApi
         .getSuggestion(input: input, lang: lang)
         .then((suggestions) {

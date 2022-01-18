@@ -1,11 +1,11 @@
 class Authorization {
-  String? accessToken;
-  String? refreshToken;
-  String? identifier;
-  String? tokenType;
-  String? scope;
-  bool? isRegistered;
-  bool? isEmailSent;
+  String accessToken;
+  String refreshToken;
+  String identifier;
+  String tokenType;
+  String scope;
+  bool isRegistered;
+  bool isEmailSent;
 
   Authorization(
       {this.accessToken,

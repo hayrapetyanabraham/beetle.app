@@ -8,7 +8,7 @@ class AuthApi {
 
   AuthApi(this._dioClient);
 
-  Future<Authorization> postGetToken({String? email}) async {
+  Future<Authorization> postGetToken({String email}) async {
     try {
       var map = <String, dynamic>{};
       map['email'] = email;
@@ -20,7 +20,7 @@ class AuthApi {
   }
 
   Future<Authorization> postExtLogin(
-      {int? providerId, String? userToken}) async {
+      {int providerId, String userToken}) async {
     try {
       /* var map = <String, dynamic>{};
       map['ProviderId'] = providerId;

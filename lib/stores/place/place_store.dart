@@ -12,7 +12,7 @@ abstract class _PlaceStore with Store {
   final ErrorStore errorStore = ErrorStore();
   final googleGeocoding = GoogleGeocoding(Secrets.API_KEY);
 
-  late PlaceRepository _repository;
+  PlaceRepository _repository;
 
   _PlaceStore(PlaceRepository repository) {
     _repository = repository;
@@ -31,34 +31,34 @@ abstract class _PlaceStore with Store {
   String lang = '';
 
   @observable
-  List<GeocodingResult>? geocodingResultsStart;
+  List<GeocodingResult> geocodingResultsStart;
 
   @observable
-  List<GeocodingResult>? geocodingResultsEnd;
+  List<GeocodingResult> geocodingResultsEnd;
 
   @observable
-  GeocodingResult? geocodingResultStart;
+  GeocodingResult geocodingResultStart;
 
   @observable
-  GeocodingResult? geocodingResultEnd;
+  GeocodingResult geocodingResultEnd;
 
 
   @action
   Future getSuggestionStart() async {
     if (geocodingResultStart != null &&
-        geocodingResultStart!.formattedAddress == input) return;
+        geocodingResultStart.formattedAddress == input) return;
     loading = true;
     var result = await googleGeocoding.geocoding.get(input, []);
-    geocodingResultsStart = result!.results!;
+    geocodingResultsStart = result.results;
   }
 
   @action
   Future getSuggestionEnd() async {
     if (geocodingResultEnd != null &&
-        geocodingResultEnd!.formattedAddress == input) return;
+        geocodingResultEnd.formattedAddress == input) return;
     loading = true;
     var result = await googleGeocoding.geocoding.get(input, []);
-    geocodingResultsEnd = result!.results!;
+    geocodingResultsEnd = result.results;
   }
 
   @action

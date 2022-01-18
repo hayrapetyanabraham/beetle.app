@@ -3,12 +3,10 @@ import 'dart:ui';
 import 'package:app/constants/assets.dart';
 import 'package:app/constants/colors.dart';
 import 'package:app/stores/auth/auth_store.dart';
-import 'package:app/stores/form/form_store.dart';
 import 'package:app/stores/theme/theme_store.dart';
 import 'package:app/ui/home/home_page.dart';
 import 'package:app/utils/device/device_utils.dart';
 import 'package:app/utils/locale/app_localization.dart';
-import 'package:app/utils/routes/routes.dart';
 import 'package:app/widgets/app_icon_widget.dart';
 import 'package:app/widgets/progress_indicator_widget.dart';
 import 'package:app/widgets/rounded_button_widget.dart';
@@ -21,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -30,9 +28,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _userEmailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late FocusNode _passwordFocusNode;
-  late AuthStore _authStore;
-  late ThemeStore _themeStore;
+  FocusNode _passwordFocusNode;
+  AuthStore _authStore;
+  ThemeStore _themeStore;
 
   @override
   void initState() {
@@ -199,8 +197,8 @@ class _LoginPageState extends State<LoginPage> {
             checkColor: Colors.white,
             fillColor: MaterialStateProperty.resolveWith(getColor),
             value: _authStore.isAgreeConditions,
-            onChanged: (bool? value) {
-              _authStore.isAgreeConditions = value!;
+            onChanged: (bool value) {
+              _authStore.isAgreeConditions = value;
             },
           ),
           Expanded(
@@ -338,8 +336,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> signInWithGoogle() async {
-    String? userToken = await _authStore.signInWithGoogle();
-    _authStore.userToken = userToken!;
+    String userToken = await _authStore.signInWithGoogle();
+    _authStore.userToken = userToken;
     _authStore.providerId = 2;
     await _authStore.postExtLogin();
     navigatorHome();

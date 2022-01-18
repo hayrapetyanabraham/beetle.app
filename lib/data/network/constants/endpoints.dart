@@ -11,7 +11,7 @@ class Endpoints {
   static const int connectionTimeout = 30000;
 
   // booking endpoints
-  static const String getUser = baseUrl + "/posts";
+  static const String getUser = baseUrl + "/passenger/user";
 
   static const String postGetToken = baseUrl + "/authority/passenger/token";
 

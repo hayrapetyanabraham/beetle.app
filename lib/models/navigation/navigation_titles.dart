@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NavigationTitles {
-  String? label;
+  String label;
   final Widget icon;
-  Widget? activeIcon;
+  Widget activeIcon;
 
-  NavigationTitles({this.activeIcon, required this.icon, this.label});
+  NavigationTitles({this.activeIcon,  this.icon, this.label});
 }

@@ -9,13 +9,6 @@ part of 'language_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LanguageStore on _LanguageStore, Store {
-  Computed<String>? _$localeComputed;
-
-  @override
-  String get locale => (_$localeComputed ??=
-          Computed<String>(() => super.locale, name: '_LanguageStore.locale'))
-      .value;
-
   final _$_localeAtom = Atom(name: '_LanguageStore._locale');
 
   @override
@@ -57,7 +50,7 @@ mixin _$LanguageStore on _LanguageStore, Store {
   }
 
   @override
-  String? getLanguage() {
+  String getLanguage() {
     final _$actionInfo = _$_LanguageStoreActionController.startAction(
         name: '_LanguageStore.getLanguage');
     try {
@@ -70,7 +63,7 @@ mixin _$LanguageStore on _LanguageStore, Store {
   @override
   String toString() {
     return '''
-locale: ${locale}
+
     ''';
   }
 }

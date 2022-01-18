@@ -14,7 +14,7 @@ class PlaceApi {
 
   PlaceApi(this._dioClient);
 
-  Future<List> getSuggestion({String? input, String? lang}) async {
+  Future<List> getSuggestion({String input, String lang}) async {
     final sessionToken = const Uuid().v4();
     final request =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:ch&key=$apiKey&sessiontoken=$sessionToken';

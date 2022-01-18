@@ -31,7 +31,6 @@ abstract class _LanguageStore with Store {
   @observable
   String _locale = "en";
 
-  @computed
   String get locale => _locale;
 
   // actions:-------------------------------------------------------------------
@@ -59,7 +58,7 @@ abstract class _LanguageStore with Store {
   }
 
   @action
-  String? getLanguage() {
+  String getLanguage() {
     return supportedLanguages[supportedLanguages
             .indexWhere((language) => language.locale == _locale)]
         .language;
@@ -69,7 +68,7 @@ abstract class _LanguageStore with Store {
   void init() async {
     // getting current language from shared preference
     if (_repository.currentLanguage != null) {
-      _locale = _repository.currentLanguage!;
+      _locale = _repository.currentLanguage;
     }
   }
 

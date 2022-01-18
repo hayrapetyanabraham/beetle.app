@@ -8,7 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapView extends StatefulWidget {
-  const MapView({Key? key}) : super(key: key);
+  const MapView({Key key}) : super(key: key);
 
   @override
   _MapViewState createState() => _MapViewState();
@@ -17,9 +17,9 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   final CameraPosition _initialLocation =
       const CameraPosition(target: LatLng(0.0, 0.0));
-  late GoogleMapController mapController;
+  GoogleMapController mapController;
 
-  late Position _currentPosition;
+  Position _currentPosition;
   String _currentAddress = '';
 
   final startAddressController = TextEditingController();
@@ -30,25 +30,25 @@ class _MapViewState extends State<MapView> {
 
   String _startAddress = '';
   String _destinationAddress = '';
-  String? _placeDistance;
+  String _placeDistance;
 
   Set<Marker> markers = {};
 
-  late PolylinePoints polylinePoints;
+  PolylinePoints polylinePoints;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Widget _textField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required String hint,
-    required double width,
-    required Icon prefixIcon,
-    Widget? suffixIcon,
-    required Function(String) locationCallback,
+    TextEditingController controller,
+    FocusNode focusNode,
+    String label,
+    String hint,
+    double width,
+    Icon prefixIcon,
+    Widget suffixIcon,
+    Function(String) locationCallback,
   }) {
     return SizedBox(
       width: width * 0.8,
@@ -134,8 +134,8 @@ class _MapViewState extends State<MapView> {
   Future<bool> _calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
-      List<Location>? startPlacemark = await locationFromAddress(_startAddress);
-      List<Location>? destinationPlacemark =
+      List<Location> startPlacemark = await locationFromAddress(_startAddress);
+      List<Location> destinationPlacemark =
           await locationFromAddress(_destinationAddress);
 
       // Use the retrieved coordinates of the current position,

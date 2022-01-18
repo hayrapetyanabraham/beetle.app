@@ -19,7 +19,7 @@ import 'package:material_dialog/material_dialog.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -91,9 +91,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   //stores:---------------------------------------------------------------------
-  late UserStore _postStore;
-  late ThemeStore _themeStore;
-  late LanguageStore _languageStore;
+  UserStore _postStore;
+  ThemeStore _themeStore;
+  LanguageStore _languageStore;
 
   @override
   void initState() {
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
 
     // check to see if already called api
     if (!_postStore.loading) {
-      // _postStore.getUser();
+      _postStore.getUser();
     }
   }
 
@@ -144,35 +144,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBottomNavigationBar() {
-    return Observer(
-      builder: (context) {
-        return BottomNavigationBar(
-          backgroundColor: Colors.white,
-          selectedItemColor: AppColors.waterloo,
-          unselectedItemColor: AppColors.pizazz,
-          unselectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Calibri',
-              color: AppColors.pizazz,
-              fontSize: 10),
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Calibri',
-              color: AppColors.waterloo,
-              fontSize: 11),
-          type: BottomNavigationBarType.fixed,
-          items: [
-            for (final tab in getNavigationTitles())
-              BottomNavigationBarItem(
-                icon: tab.icon,
-                activeIcon: tab.activeIcon,
-                label: tab.label,
-              )
-          ],
-          currentIndex: _position,
-          onTap: _onItemTapped,
-        );
-      },
+    return BottomNavigationBar(
+      backgroundColor: Colors.white,
+      selectedItemColor: AppColors.waterloo,
+      unselectedItemColor: AppColors.pizazz,
+      unselectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Calibri',
+          color: AppColors.pizazz,
+          fontSize: 10),
+      selectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Calibri',
+          color: AppColors.waterloo,
+          fontSize: 11),
+      type: BottomNavigationBarType.fixed,
+      items: [
+        for (final tab in getNavigationTitles())
+          BottomNavigationBarItem(
+            icon: tab.icon,
+            activeIcon: tab.activeIcon,
+            label: tab.label,
+          )
+      ],
+      currentIndex: _position,
+      onTap: _onItemTapped,
     );
   }
 
@@ -262,24 +258,25 @@ class _HomePageState extends State<HomePage> {
 */
 
   Widget _buildPageView() {
-    return PageView(
-     // physics: const AlwaysScrollableScrollPhysics(),
-      physics: const NeverScrollableScrollPhysics(),
-      allowImplicitScrolling: true,
-      controller: _controller,
-      children: const <Widget>[
-        MapPage(),
-        MapView(),
-       // RoutesPage(),
-        HistoryPage(),
-        HelpPage(),
-      ],
-      onPageChanged: (int page) {
-        setState(() {
-          _position = page;
-        });
-      },
-    );
+    return Observer(builder: (context) {
+      return PageView(
+        // physics: const AlwaysScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
+        allowImplicitScrolling: true,
+        controller: _controller,
+        children: <Widget>[
+          const MapPage(),
+          const MapView(),
+          const HistoryPage(),
+          HelpPage(user: _postStore.user),
+        ],
+        onPageChanged: (int page) {
+          setState(() {
+            _position = page;
+          });
+        },
+      );
+    });
   }
 
 /*
@@ -403,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                 dense: true,
                 contentPadding: EdgeInsets.all(0.0),
                 title: Text(
-                  object.language!,
+                  object.language,
                   style: TextStyle(
                     color: _languageStore.locale == object.locale
                         ? Theme.of(context).primaryColor
@@ -415,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.of(context).pop();
                   // change user language based on selected locale
-                  _languageStore.changeLanguage(object.locale!);
+                  _languageStore.changeLanguage(object.locale);
                 },
               ),
             )
@@ -424,11 +421,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _showDialog<T>({required BuildContext context, required Widget child}) {
+  _showDialog<T>({BuildContext context, Widget child}) {
     showDialog<T>(
       context: context,
       builder: (BuildContext context) => child,
-    ).then<void>((T? value) {
+    ).then<void>((T value) {
       // The value passed to Navigator.pop() or null.
     });
   }

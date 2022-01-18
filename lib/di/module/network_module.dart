@@ -34,7 +34,11 @@ abstract class NetworkModule {
             String deviceVersion = '';
             String identifier = '';
             String platform = '';
+
             var token = await sharedPrefHelper.authToken;
+            var refreshToken = await sharedPrefHelper.refreshToken;
+            var tokenType = await sharedPrefHelper.tokenType;
+
             final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
             if (Platform.isAndroid) {
               var build = await deviceInfoPlugin.androidInfo;
@@ -61,9 +65,11 @@ abstract class NetworkModule {
               print(
                   'X-Device-Platform: $platform  X-DeviceId: $identifier  X-Device-Version: $deviceVersion  X-Device-Model: $deviceName');
             }
+            print('OOOOOOPPP    $tokenType $token');
 
             if (token != null) {
-              options.headers.putIfAbsent('Authorization', () => token);
+              options.headers
+                  .putIfAbsent('Authorization', () => '$tokenType $token');
             } else {
               print('Auth token is null');
             }

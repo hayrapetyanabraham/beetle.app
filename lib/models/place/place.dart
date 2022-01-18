@@ -1,8 +1,8 @@
 class Place {
-  String? streetNumber;
-  String? street;
-  String? city;
-  String? zipCode;
+  String streetNumber;
+  String street;
+  String city;
+  String zipCode;
 
   Place({
     this.streetNumber,
@@ -18,8 +18,8 @@ class Place {
 }
 
 class Suggestion {
-  final String? placeId;
-  final String? description;
+  final String placeId;
+  final String description;
 
   Suggestion({this.placeId, this.description});
 

@@ -1,9 +1,9 @@
 class User {
-  String? fullName;
-  String? email;
-  String? gender;
-  String? phone;
-  String? picture;
+  final dynamic fullName;
+  final dynamic email;
+  final dynamic gender;
+  final dynamic phone;
+  final dynamic picture;
 
   User({
     this.fullName,

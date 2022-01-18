@@ -9,34 +9,6 @@ part of 'auth_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthStore on _AuthStore, Store {
-  Computed<bool>? _$canLoginComputed;
-
-  @override
-  bool get canLogin => (_$canLoginComputed ??=
-          Computed<bool>(() => super.canLogin, name: '_AuthStore.canLogin'))
-      .value;
-  Computed<bool>? _$isReadyToLoginComputed;
-
-  @override
-  bool get isReadyToLogin =>
-      (_$isReadyToLoginComputed ??= Computed<bool>(() => super.isReadyToLogin,
-              name: '_AuthStore.isReadyToLogin'))
-          .value;
-  Computed<bool>? _$canRegisterComputed;
-
-  @override
-  bool get canRegister =>
-      (_$canRegisterComputed ??= Computed<bool>(() => super.canRegister,
-              name: '_AuthStore.canRegister'))
-          .value;
-  Computed<bool>? _$canForgetPasswordComputed;
-
-  @override
-  bool get canForgetPassword => (_$canForgetPasswordComputed ??= Computed<bool>(
-          () => super.canForgetPassword,
-          name: '_AuthStore.canForgetPassword'))
-      .value;
-
   final _$userEmailAtom = Atom(name: '_AuthStore.userEmail');
 
   @override
@@ -85,13 +57,13 @@ mixin _$AuthStore on _AuthStore, Store {
   final _$providerIdAtom = Atom(name: '_AuthStore.providerId');
 
   @override
-  int? get providerId {
+  int get providerId {
     _$providerIdAtom.reportRead();
     return super.providerId;
   }
 
   @override
-  set providerId(int? value) {
+  set providerId(int value) {
     _$providerIdAtom.reportWrite(value, super.providerId, () {
       super.providerId = value;
     });
@@ -160,13 +132,13 @@ mixin _$AuthStore on _AuthStore, Store {
   final _$_userDataAtom = Atom(name: '_AuthStore._userData');
 
   @override
-  Map<String, dynamic>? get _userData {
+  Map<String, dynamic> get _userData {
     _$_userDataAtom.reportRead();
     return super._userData;
   }
 
   @override
-  set _userData(Map<String, dynamic>? value) {
+  set _userData(Map<String, dynamic> value) {
     _$_userDataAtom.reportWrite(value, super._userData, () {
       super._userData = value;
     });
@@ -176,13 +148,13 @@ mixin _$AuthStore on _AuthStore, Store {
       Atom(name: '_AuthStore.fetchAuthorizationFuture');
 
   @override
-  ObservableFuture<Authorization?> get fetchAuthorizationFuture {
+  ObservableFuture<Authorization> get fetchAuthorizationFuture {
     _$fetchAuthorizationFutureAtom.reportRead();
     return super.fetchAuthorizationFuture;
   }
 
   @override
-  set fetchAuthorizationFuture(ObservableFuture<Authorization?> value) {
+  set fetchAuthorizationFuture(ObservableFuture<Authorization> value) {
     _$fetchAuthorizationFutureAtom
         .reportWrite(value, super.fetchAuthorizationFuture, () {
       super.fetchAuthorizationFuture = value;
@@ -192,13 +164,13 @@ mixin _$AuthStore on _AuthStore, Store {
   final _$authorizationAtom = Atom(name: '_AuthStore.authorization');
 
   @override
-  Authorization? get authorization {
+  Authorization get authorization {
     _$authorizationAtom.reportRead();
     return super.authorization;
   }
 
   @override
-  set authorization(Authorization? value) {
+  set authorization(Authorization value) {
     _$authorizationAtom.reportWrite(value, super.authorization, () {
       super.authorization = value;
     });
@@ -319,48 +291,22 @@ success: ${success},
 loading: ${loading},
 isAgreeConditions: ${isAgreeConditions},
 fetchAuthorizationFuture: ${fetchAuthorizationFuture},
-authorization: ${authorization},
-canLogin: ${canLogin},
-isReadyToLogin: ${isReadyToLogin},
-canRegister: ${canRegister},
-canForgetPassword: ${canForgetPassword}
+authorization: ${authorization}
     ''';
   }
 }
 
 mixin _$AuthErrorStore on _AuthErrorStore, Store {
-  Computed<bool>? _$hasErrorsInLoginComputed;
-
-  @override
-  bool get hasErrorsInLogin => (_$hasErrorsInLoginComputed ??= Computed<bool>(
-          () => super.hasErrorsInLogin,
-          name: '_AuthErrorStore.hasErrorsInLogin'))
-      .value;
-  Computed<bool>? _$hasErrorsInRegisterComputed;
-
-  @override
-  bool get hasErrorsInRegister => (_$hasErrorsInRegisterComputed ??=
-          Computed<bool>(() => super.hasErrorsInRegister,
-              name: '_AuthErrorStore.hasErrorsInRegister'))
-      .value;
-  Computed<bool>? _$hasErrorInForgotPasswordComputed;
-
-  @override
-  bool get hasErrorInForgotPassword => (_$hasErrorInForgotPasswordComputed ??=
-          Computed<bool>(() => super.hasErrorInForgotPassword,
-              name: '_AuthErrorStore.hasErrorInForgotPassword'))
-      .value;
-
   final _$userEmailAtom = Atom(name: '_AuthErrorStore.userEmail');
 
   @override
-  String? get userEmail {
+  String get userEmail {
     _$userEmailAtom.reportRead();
     return super.userEmail;
   }
 
   @override
-  set userEmail(String? value) {
+  set userEmail(String value) {
     _$userEmailAtom.reportWrite(value, super.userEmail, () {
       super.userEmail = value;
     });
@@ -369,13 +315,13 @@ mixin _$AuthErrorStore on _AuthErrorStore, Store {
   final _$passwordAtom = Atom(name: '_AuthErrorStore.password');
 
   @override
-  String? get password {
+  String get password {
     _$passwordAtom.reportRead();
     return super.password;
   }
 
   @override
-  set password(String? value) {
+  set password(String value) {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
     });
@@ -384,13 +330,13 @@ mixin _$AuthErrorStore on _AuthErrorStore, Store {
   final _$confirmPasswordAtom = Atom(name: '_AuthErrorStore.confirmPassword');
 
   @override
-  String? get confirmPassword {
+  String get confirmPassword {
     _$confirmPasswordAtom.reportRead();
     return super.confirmPassword;
   }
 
   @override
-  set confirmPassword(String? value) {
+  set confirmPassword(String value) {
     _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
       super.confirmPassword = value;
     });
@@ -401,10 +347,7 @@ mixin _$AuthErrorStore on _AuthErrorStore, Store {
     return '''
 userEmail: ${userEmail},
 password: ${password},
-confirmPassword: ${confirmPassword},
-hasErrorsInLogin: ${hasErrorsInLogin},
-hasErrorsInRegister: ${hasErrorsInRegister},
-hasErrorInForgotPassword: ${hasErrorInForgotPassword}
+confirmPassword: ${confirmPassword}
     ''';
   }
 }

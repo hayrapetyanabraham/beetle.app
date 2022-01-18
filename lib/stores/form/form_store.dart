@@ -15,7 +15,7 @@ abstract class _FormStore with Store {
   }
 
   // disposers:-----------------------------------------------------------------
-  late List<ReactionDisposer> _disposers;
+  List<ReactionDisposer> _disposers;
 
   void _setupValidations() {
     _disposers = [
@@ -41,20 +41,17 @@ abstract class _FormStore with Store {
   @observable
   bool loading = false;
 
-  @computed
   bool get canLogin =>
       !formErrorStore.hasErrorsInLogin &&
       userEmail.isNotEmpty;
           //&& password.isNotEmpty;
 
-  @computed
   bool get canRegister =>
       !formErrorStore.hasErrorsInRegister &&
       userEmail.isNotEmpty &&
       password.isNotEmpty &&
       confirmPassword.isNotEmpty;
 
-  @computed
   bool get canForgetPassword =>
       !formErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
@@ -156,21 +153,18 @@ class FormErrorStore = _FormErrorStore with _$FormErrorStore;
 
 abstract class _FormErrorStore with Store {
   @observable
-  String? userEmail;
+  String userEmail;
 
   @observable
-  String? password;
+  String password;
 
   @observable
-  String? confirmPassword;
+  String confirmPassword;
 
-  @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
 
-  @computed
   bool get hasErrorsInRegister =>
       userEmail != null || password != null || confirmPassword != null;
 
-  @computed
   bool get hasErrorInForgotPassword => userEmail != null;
 }

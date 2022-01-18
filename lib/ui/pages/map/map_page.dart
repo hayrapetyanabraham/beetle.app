@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'package:app/constants/colors.dart';
+import 'package:app/constants/secrets.dart';
+import 'package:app/helpers/map_helper.dart';
 import 'package:app/stores/place/place_store.dart';
 import 'package:app/ui/pages/route_selector/route_selector_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_geocoding/google_geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({Key? key}) : super(key: key);
+  const MapPage({Key key}) : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -14,17 +18,15 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final Completer<GoogleMapController> _controller = Completer();
+  PolylinePoints polylinePoints = PolylinePoints();
+  Map<PolylineId, Polyline> polylines = {};
+  Map<MarkerId, Marker> markers = {};
+  GoogleMapController mapController;
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
+  static CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(40.1875658, 44.5149051),
     zoom: 14.4746,
   );
-
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +35,18 @@ class _MapPageState extends State<MapPage> {
         GoogleMap(
           mapType: MapType.normal,
           initialCameraPosition: _kGooglePlex,
+          myLocationEnabled: true,
+          tiltGesturesEnabled: true,
+          compassEnabled: true,
+          scrollGesturesEnabled: true,
+          zoomGesturesEnabled: true,
+          markers: Set<Marker>.of(markers.values),
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
+            mapController = controller;
           },
+          polylines: Set<Polyline>.of(polylines.values),
+          // polylines: Set.from(polyline),
         ),
         Align(
           alignment: Alignment.topCenter,
@@ -55,8 +66,8 @@ class _MapPageState extends State<MapPage> {
   }
 
   Widget _searchField({
-    required String label,
-    required Icon prefixIcon,
+     String label,
+     Icon prefixIcon,
   }) {
     return Card(
       elevation: 5,
@@ -98,61 +109,71 @@ class _MapPageState extends State<MapPage> {
   Future<void> showRouteSelectorPage() async {
     PlaceStore _placeStore = await Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => const RouteSelectorPage()));
-    print('OOOOOO ' +
-        _placeStore.geocodingResultStart!.formattedAddress.toString());
 
-    /// Navigator.of(context).push(Routes.routeSelectorPage);
+    _getPolyline(
+        locationStart: _placeStore.geocodingResultStart.geometry.location,
+        locationEnd: _placeStore.geocodingResultEnd.geometry.location);
   }
 
-  Widget _textField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required String hint,
-    required double width,
-    required Icon prefixIcon,
-    Widget? suffixIcon,
-    required Function(String) locationCallback,
-  }) {
-    return SizedBox(
-      height: 36,
-      child: TextField(
-        onChanged: null,
-        controller: controller,
-        focusNode: focusNode,
-        decoration: InputDecoration(
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          labelText: label,
-          filled: true,
-          fillColor: Colors.white.withOpacity(0.75),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.white.withOpacity(0.75),
-              width: 0,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.blue.shade300,
-              width: 2,
-            ),
-          ),
-          contentPadding: const EdgeInsets.all(15),
-          hintText: hint,
+  void _getPolyline({Location locationStart, Location locationEnd}) async {
+    List<LatLng> polylineCoordinates = [];
+    if (locationStart.lat != null &&
+        locationStart.lng != null &&
+        locationEnd.lat != null &&
+        locationEnd.lng != null) {
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        Secrets.API_KEY,
+        PointLatLng(locationStart.lat, locationStart.lng),
+        PointLatLng(locationEnd.lat, locationEnd.lng),
+        travelMode: TravelMode.driving,
+      );
+      if (result.points.isNotEmpty) {
+        for (var point in result.points) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+      } else {
+        print(result.errorMessage);
+      }
+
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(locationStart.lat, locationStart.lng),
+              zoom: 14.0),
         ),
-      ),
-    );
+      );
+      _addMarker(
+        LatLng(locationStart.lat, locationStart.lng),
+        "origin",
+        BitmapDescriptor.defaultMarker,
+      );
+      _addMarker(
+        LatLng(locationEnd.lat, locationEnd.lng),
+        "destination",
+        BitmapDescriptor.defaultMarkerWithHue(90),
+      );
+      _addPolyLine(polylineCoordinates);
+    }
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
+    MarkerId markerId = MarkerId(id);
+    Marker marker =
+        Marker(markerId: markerId, icon: descriptor, position: position);
+    markers[markerId] = marker;
+  }
+
+  _addPolyLine(List<LatLng> polylineCoordinates) {
+    PolylineId id = const PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      points: polylineCoordinates,
+      color: AppColors.pizazz,
+      width: 8,
+    );
+
+    setState(() {
+      polylines[id] = polyline;
+    });
   }
 }

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/data/shared/constants/preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SharedPreferenceHelper {
   // shared pref instance
   final SharedPreferences _sharedPreference;
@@ -12,16 +11,42 @@ class SharedPreferenceHelper {
   SharedPreferenceHelper(this._sharedPreference);
 
   // General Methods: ----------------------------------------------------------
-  Future<String?> get authToken async {
+  Future<String> get authToken async {
     return _sharedPreference.getString(Preferences.auth_token);
   }
 
-  Future<bool> saveAuthToken(String authToken) async {
-    return _sharedPreference.setString(Preferences.auth_token, authToken);
+  Future<void> saveAuthToken(String authToken) async {
+    _sharedPreference.setString(Preferences.auth_token, authToken);
   }
 
   Future<bool> removeAuthToken() async {
     return _sharedPreference.remove(Preferences.auth_token);
+  }
+
+//refreshToken
+  Future<String> get refreshToken async {
+    return _sharedPreference.getString(Preferences.refreshToken);
+  }
+
+  Future<void> saveRefreshToken(String refreshToken) async {
+    _sharedPreference.setString(Preferences.refreshToken, refreshToken);
+  }
+
+  Future<bool> removeRefreshToken() async {
+    return _sharedPreference.remove(Preferences.refreshToken);
+  }
+
+  //tokenType
+  Future<String> get tokenType async {
+    return _sharedPreference.getString(Preferences.tokenType);
+  }
+
+  Future<void> saveTokenType(String tokenType) async {
+    _sharedPreference.setString(Preferences.tokenType, tokenType);
+  }
+
+  Future<bool> removeTokenType() async {
+    return _sharedPreference.remove(Preferences.tokenType);
   }
 
   // Login:---------------------------------------------------------------------
@@ -43,7 +68,7 @@ class SharedPreferenceHelper {
   }
 
   // Language:---------------------------------------------------
-  String? get currentLanguage {
+  String get currentLanguage {
     return _sharedPreference.getString(Preferences.current_language);
   }
 

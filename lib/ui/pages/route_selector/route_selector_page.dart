@@ -8,7 +8,7 @@ import 'package:google_geocoding/google_geocoding.dart';
 import 'package:provider/provider.dart';
 
 class RouteSelectorPage extends StatefulWidget {
-  const RouteSelectorPage({Key? key}) : super(key: key);
+  const RouteSelectorPage({Key key}) : super(key: key);
 
   @override
   _RouteSelectorPageState createState() => _RouteSelectorPageState();
@@ -17,7 +17,7 @@ class RouteSelectorPage extends StatefulWidget {
 class _RouteSelectorPageState extends State<RouteSelectorPage> {
   final startAddressController = TextEditingController();
   final endAddressController = TextEditingController();
-  late PlaceStore _placeStore;
+  PlaceStore _placeStore;
   final startAddressFocusNode = FocusNode();
   final endAddressFocusNode = FocusNode();
 
@@ -27,11 +27,11 @@ class _RouteSelectorPageState extends State<RouteSelectorPage> {
     _placeStore = Provider.of<PlaceStore>(context);
     if (_placeStore.geocodingResultStart != null) {
       startAddressController.text =
-          _placeStore.geocodingResultStart!.formattedAddress.toString();
+          _placeStore.geocodingResultStart.formattedAddress.toString();
     }
     if (_placeStore.geocodingResultEnd != null) {
       endAddressController.text =
-          _placeStore.geocodingResultEnd!.formattedAddress.toString();
+          _placeStore.geocodingResultEnd.formattedAddress.toString();
     }
   }
 
@@ -144,10 +144,10 @@ class _RouteSelectorPageState extends State<RouteSelectorPage> {
   }
 
   ListTile _itemPlace(
-      {String? title, String? subtitle, IconData? icon, Function? onTap}) {
+      {String title, String subtitle, IconData icon, Function onTap}) {
     return ListTile(
       onTap: () {
-        onTap!();
+        onTap();
       },
       title: Text(title ?? '',
           style: TextStyle(
@@ -169,7 +169,7 @@ class _RouteSelectorPageState extends State<RouteSelectorPage> {
   }
 
   Widget _listAddresses(
-      {List<GeocodingResult>? geocodingResults, Function? onSelectedItem}) {
+      {List<GeocodingResult> geocodingResults, Function onSelectedItem}) {
     return Card(
       elevation: 5,
       color: Colors.white,
@@ -178,16 +178,16 @@ class _RouteSelectorPageState extends State<RouteSelectorPage> {
       ),
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: geocodingResults!.length,
+        itemCount: geocodingResults.length,
         itemBuilder: (BuildContext context, int index) {
           GeocodingResult geocodingResult = geocodingResults[index];
           return _itemPlace(
               icon: Icons.add_location,
               title: geocodingResult.formattedAddress,
               subtitle:
-                  'lat: ${geocodingResult.geometry!.location!.lat}  lng: ${geocodingResult.geometry!.location!.lng}',
+                  'lat: ${geocodingResult.geometry.location.lat}  lng: ${geocodingResult.geometry.location.lng}',
               onTap: () {
-                onSelectedItem!(geocodingResult);
+                onSelectedItem(geocodingResult);
               });
         },
       ),
@@ -200,13 +200,13 @@ class _RouteSelectorPageState extends State<RouteSelectorPage> {
   }
 
   Widget _searchField({
-    required String label,
-    required Icon prefixIcon,
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String hint,
-    Widget? suffixIcon,
-    required Function(String) locationCallback,
+     String label,
+     Icon prefixIcon,
+     TextEditingController controller,
+     FocusNode focusNode,
+     String hint,
+    Widget suffixIcon,
+     Function(String) locationCallback,
   }) {
     return Card(
       elevation: 5,

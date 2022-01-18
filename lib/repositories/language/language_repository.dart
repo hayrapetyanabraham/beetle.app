@@ -9,5 +9,5 @@ class LanguageRepository {
   Future<void> changeLanguage(String value) =>
       _sharedPrefsHelper.changeLanguage(value);
 
-  String? get currentLanguage => _sharedPrefsHelper.currentLanguage;
+  String get currentLanguage => _sharedPrefsHelper.currentLanguage;
 }

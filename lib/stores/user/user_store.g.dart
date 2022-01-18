@@ -9,23 +9,16 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserStore on _UserStore, Store {
-  Computed<bool>? _$loadingComputed;
-
-  @override
-  bool get loading => (_$loadingComputed ??=
-          Computed<bool>(() => super.loading, name: '_UserStore.loading'))
-      .value;
-
   final _$fetchUserFutureAtom = Atom(name: '_UserStore.fetchUserFuture');
 
   @override
-  ObservableFuture<User?> get fetchUserFuture {
+  ObservableFuture<User> get fetchUserFuture {
     _$fetchUserFutureAtom.reportRead();
     return super.fetchUserFuture;
   }
 
   @override
-  set fetchUserFuture(ObservableFuture<User?> value) {
+  set fetchUserFuture(ObservableFuture<User> value) {
     _$fetchUserFutureAtom.reportWrite(value, super.fetchUserFuture, () {
       super.fetchUserFuture = value;
     });
@@ -34,13 +27,13 @@ mixin _$UserStore on _UserStore, Store {
   final _$userAtom = Atom(name: '_UserStore.user');
 
   @override
-  User? get user {
+  User get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(User? value) {
+  set user(User value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
     });
@@ -73,8 +66,7 @@ mixin _$UserStore on _UserStore, Store {
     return '''
 fetchUserFuture: ${fetchUserFuture},
 user: ${user},
-success: ${success},
-loading: ${loading}
+success: ${success}
     ''';
   }
 }

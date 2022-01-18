@@ -16,8 +16,8 @@ class AuthStore = _AuthStore with _$AuthStore;
 
 abstract class _AuthStore with Store {
   final AuthErrorStore authErrorStore = AuthErrorStore();
-  late AuthRepository _repository;
-  late List<ReactionDisposer> _disposers;
+  AuthRepository _repository;
+  List<ReactionDisposer> _disposers;
   final ErrorStore errorStore = ErrorStore();
 
   _AuthStore(AuthRepository repository) {
@@ -43,7 +43,7 @@ abstract class _AuthStore with Store {
   String userToken = '';
 
   @observable
-  int? providerId;
+  int providerId;
 
   @observable
   String confirmPassword = '';
@@ -58,12 +58,10 @@ abstract class _AuthStore with Store {
   bool isAgreeConditions = false;
 
   @observable
-  Map<String, dynamic>? _userData;
+  Map<String, dynamic> _userData;
 
-  @computed
   bool get canLogin => !authErrorStore.hasErrorsInLogin && userEmail.isNotEmpty;
 
-  @computed
   bool get isReadyToLogin =>
       authErrorStore.userEmail == null &&
       userEmail.isNotEmpty &&
@@ -71,26 +69,24 @@ abstract class _AuthStore with Store {
 
   //&& password.isNotEmpty;
 
-  @computed
   bool get canRegister =>
       !authErrorStore.hasErrorsInRegister &&
       userEmail.isNotEmpty &&
       password.isNotEmpty &&
       confirmPassword.isNotEmpty;
 
-  @computed
   bool get canForgetPassword =>
       !authErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
-  static ObservableFuture<Authorization?> authorizationResponse =
+  static ObservableFuture<Authorization> authorizationResponse =
       ObservableFuture.value(null);
 
   @observable
-  ObservableFuture<Authorization?> fetchAuthorizationFuture =
-      ObservableFuture<Authorization?>(authorizationResponse);
+  ObservableFuture<Authorization> fetchAuthorizationFuture =
+      ObservableFuture<Authorization>(authorizationResponse);
 
   @observable
-  Authorization? authorization;
+  Authorization authorization;
 
   @action
   void setUserId(String value) {
@@ -140,12 +136,13 @@ abstract class _AuthStore with Store {
     }
   }
 
-  Future<String?> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
+        //TODO
         return googleAuth.idToken;
       } else {
         return null;
@@ -176,12 +173,12 @@ abstract class _AuthStore with Store {
 
     if (result.status == LoginStatus.success) {
       final userData = await FacebookAuth.instance.getUserData();
-
+      //TODO
       _userData = userData;
     } else {
       print(result.message);
     }
-    return result.accessToken!.token;
+    return result.accessToken.token;
   }
 
   @action
@@ -192,6 +189,9 @@ abstract class _AuthStore with Store {
     fetchAuthorizationFuture = ObservableFuture(future);
     future.then((authorization) {
       this.authorization = authorization;
+      _repository.saveAuthToken(authToken: authorization.accessToken);
+      _repository.saveRefreshToken(refreshToken: authorization.refreshToken);
+      _repository.saveTokenType(tokenType: authorization.tokenType);
       loading = false;
       success = true;
     }).catchError((error) {
@@ -261,21 +261,18 @@ class AuthErrorStore = _AuthErrorStore with _$AuthErrorStore;
 
 abstract class _AuthErrorStore with Store {
   @observable
-  String? userEmail;
+  String userEmail;
 
   @observable
-  String? password;
+  String password;
 
   @observable
-  String? confirmPassword;
+  String confirmPassword;
 
-  @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
 
-  @computed
   bool get hasErrorsInRegister =>
       userEmail != null || password != null || confirmPassword != null;
 
-  @computed
   bool get hasErrorInForgotPassword => userEmail != null;
 }

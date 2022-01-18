@@ -12,17 +12,8 @@ class UserRepository {
   // constructor
   UserRepository(this._userApi, this._sharedPrefsHelper);
 
-  // Post: ---------------------------------------------------------------------
   Future<User> getUser() async {
-    // check to see if posts are present in database, then fetch from database
-    // else make a network call to get all posts, store them into database for
-    // later use
-
     return await _userApi.getUser().then((user) {
-      /* user.posts?.forEach((user) {
-        _postDataSource.insert(user);
-      });*/
-
       return user;
     }).catchError((error) => throw error);
   }
