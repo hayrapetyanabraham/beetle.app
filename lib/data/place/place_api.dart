@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 class PlaceApi {
   final DioClient _dioClient;
 
-  static const String androidKey = 'AIzaSyAp4W3h50iESesQXflHU1dfVbDAG0QrD2Y';
+  static const String androidKey = '';
   static const String iosKey = 'YOUR_API_KEY_HERE';
 
   final apiKey = Platform.isAndroid ? androidKey : iosKey;
