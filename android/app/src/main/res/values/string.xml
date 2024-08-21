@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Beetle"</string>
+    <string name="facebook_app_id">2982820661983127</string>
+    <string name="fb_login_protocol_scheme">fb2982820661983127</string>
+    <string name="google_map_key">AIzaSyAp4W3h50iESesQXflHU1dfVbDAG0QrD2Y</string>
+</resources>
